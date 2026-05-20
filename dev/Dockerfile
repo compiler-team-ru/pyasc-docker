@@ -1,6 +1,7 @@
 ARG BASE_IMAGE="ubuntu:22.04"
 FROM ${BASE_IMAGE}
 
+LABEL org.opencontainers.image.description="Development image for PyAsc (non-NPU environment)"
 LABEL org.opencontainers.image.source="https://github.com/compiler-team-ru/pyasc-docker"
 
 ENV DEBIAN_FRONTEND=noninteractive
@@ -24,7 +25,7 @@ RUN apt-get update && \
         wget \
         zip \
         zlib1g-dev && \
-    wget -O /usr/share/keyrings/llvm.asc https://apt.llvm.org/llvm-snapshot.gpg.key && \
+    wget -LO /usr/share/keyrings/llvm.asc https://apt.llvm.org/llvm-snapshot.gpg.key && \
     echo "deb [signed-by=/usr/share/keyrings/llvm.asc] \
         http://apt.llvm.org/jammy/ llvm-toolchain-jammy-20 main" \
         > /etc/apt/sources.list.d/llvm.list && \
