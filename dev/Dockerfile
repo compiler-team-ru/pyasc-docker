@@ -1,4 +1,4 @@
-ARG BASE_IMAGE="ubuntu:22.04"
+ARG BASE_IMAGE="ubuntu:24.04"
 FROM ${BASE_IMAGE}
 
 LABEL org.opencontainers.image.description="Development image for PyAsc (non-NPU environment)"
@@ -37,9 +37,7 @@ RUN apt-get update && \
         clang-tidy-20 \
         lld-20 \
         python3.11 \
-        python3.11-dev \
-        python3-pip \
-        python3-setuptools && \
+        python3.11-dev && \
     rm -rf /var/lib/apt/lists/*
 
 ARG CCACHE_ARCHIVE_URL
@@ -59,7 +57,10 @@ RUN update-alternatives --install /usr/bin/clang clang /usr/bin/clang-20 100 && 
     update-alternatives --install /usr/bin/clang-tidy clang-tidy /usr/bin/clang-tidy-20 100 && \
     update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.11 1
 
-RUN python3 -m pip install --no-cache-dir --upgrade pip setuptools wheel
+RUN wget -LO /tmp/get-pip.py https://bootstrap.pypa.io/get-pip.py && \
+    python3 /tmp/get-pip.py && \
+    python3 -m pip install --no-cache-dir --upgrade setuptools wheel && \
+    rm /tmp/get-pip.py
 
 ARG CANN_TOOLKIT_URL
 RUN wget -LO cann.run "${CANN_TOOLKIT_URL}" && \
@@ -78,5 +79,12 @@ RUN mkdir /opt/llvm && \
     rm llvm.tar.gz
 
 ENV LLVM_INSTALL_PREFIX="/opt/llvm"
+
+ENV PRE_COMMIT_HOME="/opt/pre-commit-cache"
+RUN --mount=type=bind,target=/tmp/.pre-commit-config.yaml,source=.pre-commit-config.yaml \
+    cd /tmp && \
+    git init && \
+    pre-commit install-hooks && \
+    rm -r .git
 
 RUN echo "source /usr/local/Ascend/cann/set_env.sh" >> /etc/bash.bashrc

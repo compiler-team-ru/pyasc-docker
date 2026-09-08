@@ -3,7 +3,7 @@ variable "IMAGE_NAME" {
 }
 
 variable "IMAGE_TAGS" {
-  default = ["latest", "cann-9.2.0-beta.1"]
+  default = ["latest", "cann-9.2.0-beta.2"]
   type = list(string)
 }
 
@@ -18,8 +18,8 @@ target "amd64" {
   platforms = ["linux/amd64"]
   args = {
     CCACHE_ARCHIVE_URL = "https://github.com/ccache/ccache/releases/download/v4.13.6/ccache-4.13.6-linux-x86_64-glibc.tar.xz"
-    CANN_TOOLKIT_URL = "https://ascend-cann-open.obs.cn-north-4.myhuaweicloud.com/CANN/CANN%209.2.0-beta.1/Ascend-cann_9.2.0-beta.1_linux-x86_64.run"
-    LLVM_ARCHIVE_URL = "https://oaitriton.blob.core.windows.net/public/llvm-builds/llvm-86b69c31-ubuntu-x64.tar.gz"
+    CANN_TOOLKIT_URL = "https://ascend-cann-open.obs.cn-north-4.myhuaweicloud.com/CANN/CANN%209.2.0-beta.2/Ascend-cann_9.2.0-beta.2_linux-x86_64.run"
+    LLVM_ARCHIVE_URL = "https://cann-ai.obs.cn-north-4.myhuaweicloud.com/llvm/llvm-19.1.7-x86_64.tar.xz"
   }
 }
 
@@ -28,8 +28,8 @@ target "arm64" {
   platforms = ["linux/arm64"]
   args = {
     CCACHE_ARCHIVE_URL = "https://github.com/ccache/ccache/releases/download/v4.13.6/ccache-4.13.6-linux-aarch64-glibc.tar.xz"
-    CANN_TOOLKIT_URL = "https://ascend-repo.obs.cn-east-2.myhuaweicloud.com/CANN/CANN%209.2.T1/Ascend-cann-toolkit_9.2.0-beta.1_linux-aarch64.run"
-    LLVM_ARCHIVE_URL = "https://oaitriton.blob.core.windows.net/public/llvm-builds/llvm-86b69c31-ubuntu-arm64.tar.gz"
+    CANN_TOOLKIT_URL = "https://ascend-repo.obs.cn-east-2.myhuaweicloud.com/CANN/CANN%209.2.T3/Ascend-cann-toolkit_9.2.0-beta.2_linux-aarch64.run"
+    LLVM_ARCHIVE_URL = "https://cann-ai.obs.cn-north-4.myhuaweicloud.com/llvm/llvm-19.1.7-aarch64.tar.xz"
   }
 }
 
@@ -51,8 +51,8 @@ target "amd64-local" {
   inherits = ["common-local", "amd64"]
   args = {
     CCACHE_ARCHIVE_URL = "${LOCAL_GATEWAY}/ccache-4.13.6-linux-x86_64-glibc.tar.xz"
-    CANN_TOOLKIT_URL = "${LOCAL_GATEWAY}/Ascend-cann_9.2.0-beta.1_linux-x86_64.run"
-    LLVM_ARCHIVE_URL = "${LOCAL_GATEWAY}/llvm-86b69c31-ubuntu-x64.tar.gz"
+    CANN_TOOLKIT_URL = "${LOCAL_GATEWAY}/Ascend-cann_9.2.0-beta.2_linux-x86_64.run"
+    LLVM_ARCHIVE_URL = "${LOCAL_GATEWAY}/llvm-19.1.7-x86_64.tar.xz"
   }
 }
 
@@ -60,8 +60,8 @@ target "arm64-local" {
   inherits = ["common-local", "arm64"]
   args = {
     CCACHE_ARCHIVE_URL = "${LOCAL_GATEWAY}/ccache-4.13.6-linux-aarch64-glibc.tar.xz"
-    CANN_TOOLKIT_URL = "${LOCAL_GATEWAY}/Ascend-cann-toolkit_9.2.0-beta.1_linux-aarch64.run"
-    LLVM_ARCHIVE_URL = "${LOCAL_GATEWAY}/llvm-86b69c31-ubuntu-arm64.tar.gz"
+    CANN_TOOLKIT_URL = "${LOCAL_GATEWAY}/Ascend-cann-toolkit_9.2.0-beta.2_linux-aarch64.run"
+    LLVM_ARCHIVE_URL = "${LOCAL_GATEWAY}/llvm-19.1.7-aarch64.tar.xz"
   }
 }
 
