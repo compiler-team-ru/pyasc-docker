@@ -3,16 +3,18 @@ repos:
     rev: v0.43.0
     hooks:
       - id: yapf
-        args: ["-p", "-i"]
 
   - repo: https://gitcode.com/gh_mirrors/ru/ruff-pre-commit
     rev: v0.11.5
     hooks:
       - id: ruff
-        files: ^(python/asc/|experimental/asctile/python/)
 
   - repo: https://gitcode.com/pre-commit-clang/mirrors-clang-format
     rev: v20.1.8
     hooks:
       - id: clang-format
-        types_or: [c++, c]
+
+  - repo: https://gitcode.com/HiAgent/compliance
+    rev: v1.0.6
+    hooks:
+      - id: oat-check

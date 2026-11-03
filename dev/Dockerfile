@@ -15,6 +15,7 @@ RUN apt-get update && \
         git \
         gnupg \
         lcov \
+        mold \
         nano \
         openssh-client \
         rsync \
@@ -69,16 +70,16 @@ RUN wget -LO cann.run "${CANN_TOOLKIT_URL}" && \
 
 RUN --mount=type=bind,target=/tmp/requirements.txt,source=requirements.txt \
     python3 -m pip install --no-cache-dir -r /tmp/requirements.txt && \
-    python3 -m pip install --no-cache-dir torch --index-url https://download.pytorch.org/whl/cpu
+    python3 -m pip install --no-cache-dir torch --index-url https://download.pytorch.org/whl/cpu && \
+    python3 -m pip download -d "$(python3 -m pip cache dir)" --only-binary=:all: ml-dtypes
 
 ARG LLVM_ARCHIVE_URL
-RUN mkdir /opt/llvm && \
-    cd /opt/llvm && \
+ENV LLVM_INSTALL_PREFIX="/opt/llvm"
+RUN mkdir ${LLVM_INSTALL_PREFIX} && \
+    cd ${LLVM_INSTALL_PREFIX} && \
     wget -LO llvm.tar.gz "${LLVM_ARCHIVE_URL}" && \
     tar xf llvm.tar.gz --strip-components=1 && \
     rm llvm.tar.gz
-
-ENV LLVM_INSTALL_PREFIX="/opt/llvm"
 
 ENV PRE_COMMIT_HOME="/opt/pre-commit-cache"
 RUN --mount=type=bind,target=/tmp/.pre-commit-config.yaml,source=.pre-commit-config.yaml \
